@@ -83,5 +83,23 @@ class UsersController extends Controller
             'users' => $followers,
         ]);
     }
-
+    
+    //　$id のユーザがファボした投稿一覧を表示するアクション
+    public function favorites($id)
+    {
+         // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);  
+        
+        // 関係するモデルの件数をロード
+        $user->loadRelationshipCounts();
+        
+        //ユーザのファボした投稿一覧を取得
+        $favorites = $user->favorites()->paginate(10);
+        
+        //ファボ一覧ビューでそれらを表示
+        return view('users.favorites', [
+            'user' => $user,
+            'microposts' => $favorites,
+            ]);
+    }
 }
