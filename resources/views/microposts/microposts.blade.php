@@ -1,6 +1,11 @@
 @if (count($microposts) > 0)
     <ul class="list-unstyled">
+        {{-- 投稿数を数えるための変数を設置--}}
+        <?php  $posts_count = 0;?>
+        
         @foreach ($microposts as $micropost)
+        {{-- ここでカウント --}}
+        <?php $posts_count++; ?>
             <li class="media mb-3">
                 {{-- 投稿の所有者のメールアドレスをもとにGravatarを取得して表示 --}}
                 <img class="mr-2 rounded" src="{{ Gravatar::get($micropost->user->email, ['size' => 50]) }}" alt="">

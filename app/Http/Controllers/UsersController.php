@@ -27,13 +27,30 @@ class UsersController extends Controller
         $user->loadRelationshipCounts();
 
         // ユーザの投稿一覧を作成日時の降順で取得
-        $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+        // ユーザのフォローしてるユーザの投稿を含めて表示　タイムラインを共有するためにfeed_microposts()を使う
+        $microposts = $user->feed_microposts()->orderBy('created_at', 'desc')->paginate(10);
 
         // ユーザ詳細ビューでそれらを表示
         return view('users.show', [
             'user' => $user,
             'microposts' => $microposts,
         ]);
+    }
+    
+    public function ownposts($id)
+    {
+         // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+
+        // 関係するモデルの件数をロード
+        $user->loadRelationshipCounts();
+        
+        $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+        
+        return view('users.show',[
+            'user' => $user,
+            'microposts' => $microposts,
+            ]);
     }
     
     /**
