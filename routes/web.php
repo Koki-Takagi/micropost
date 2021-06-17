@@ -32,8 +32,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('favorites', 'UsersController@favorites')->name('users.favorites');  
         Route::get('ownposts', 'UsersController@ownposts')->name('users.ownposts');
     });   
-    
-    Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
+    //profileを追加するためにedit, updateを追加した
+    Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'edit', 'update']]);
     
     Route::group(['prefix' => 'microposts/{id}'], function () {
         Route::post('favorite', 'FavoritesController@store')->name('favorites.favorite');

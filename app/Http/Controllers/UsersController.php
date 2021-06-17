@@ -36,6 +36,35 @@ class UsersController extends Controller
             'microposts' => $microposts,
         ]);
     }
+    //プロフィール更新ページへ遷移
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        
+        return view('users.edit', [
+            'user' => $user
+            ]);
+    }
+    
+    //プロフィール変更のput
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        $user->profile = $request->profile;
+        $user->save();
+        // showページに戻るための値を用意
+                // 関係するモデルの件数をロード
+        $user->loadRelationshipCounts();
+        
+        $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+        return view('users.show',[
+            'user' => $user,
+            'microposts' => $microposts,
+            ]);
+        
+    }
+    
     
     public function ownposts($id)
     {
