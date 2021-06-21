@@ -14,7 +14,7 @@ class AddProfileToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('profile');
+            $table->string('profile')->nullable();
         });
     }
 
