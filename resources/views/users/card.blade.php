@@ -13,4 +13,6 @@
 {{-- フォロー／アンフォローボタン --}}
 @include('user_follow.follow_button')
     {{-- プロフィール編集ページへのリンク --}}
+@if(Auth::id() == $user->id)
     {!! link_to_route('users.edit', 'プロフィールを編集', ['user' => $user->id], ['class' => 'btn btn-light']) !!}
+@endif
