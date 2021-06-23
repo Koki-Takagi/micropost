@@ -40,10 +40,13 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        
+        // 認証済みユーザがこのidのユーザであれば編集画面へ
+        if(\Auth::id() == $user->id){
         return view('users.edit', [
             'user' => $user
             ]);
+        }
+        return back();
     }
     
     //プロフィール変更のput
